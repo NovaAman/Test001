@@ -94,10 +94,13 @@
         }
 
         /* Confetti */
-            .confetti.shape1 { clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%); }
-    .confetti.shape2 { clip-path: polygon(0 0, 100% 0, 50% 100%); }
-    .confetti.shape3 { border-radius: 50%; }
-    .confetti.shape4 { clip-path: polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%); }
+        .confetti {
+            position: fixed;
+            width: 12px;
+            height: 12px;
+            background: #ff0000;
+            pointer-events: none;
+            border-radius: 50%;
         }
 
         /* Animations */
@@ -174,19 +177,18 @@
         });
 
         // Confetti Creator (persistent)
-         function createConfetti() {
-        const colors = ['#ff7675', '#74b9ff', '#55efc4', '#ffeaa7', '#a29bfe'];
-        for(let i = 0; i < 200; i++) {
-            const confetti = document.createElement('div');
-            confetti.classList.add('confetti', shape${Math.floor(Math.random() * 4) + 1});
-            confetti.style.left = Math.random() * 100 + 'vw';
-            confetti.style.top = Math.random() * 100 + 'vh';
-            confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-            confetti.style.animation = float ${3 + Math.random() * 5}s infinite;
-            document.body.appendChild(confetti);
+        function createConfetti() {
+            const colors = ['#ff7675', '#74b9ff', '#55efc4', '#ffeaa7', '#a29bfe'];
+            for(let i = 0; i < 200; i++) {
+                const confetti = document.createElement('div');
+                confetti.classList.add('confetti');
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.top = Math.random() * 100 + 'vh';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.animation = `float ${3 + Math.random() * 5}s infinite`;
+                document.body.appendChild(confetti);
+            }
         }
-    }
-</script>
 
         // Mobile Touch Support
         let touchStartY;
