@@ -3,153 +3,109 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Birthday Surprise</title>
+    <title>Surprise Scroll!</title>
     <style>
-        body {
+        * {
             margin: 0;
-            font-family: Arial, sans-serif;
-            background: #000;
-            color: #fff;
-            transition: 1s;
-        }
-
-        .scene {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            opacity: 0;
-            transform: translateY(50px);
-            transition: 1s;
-            padding: 20px;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
             text-align: center;
         }
 
-        .visible {
+        body {
+            background: #ffe6e6;
+            overflow-x: hidden;
+        }
+
+        .message {
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 1s ease-out;
+            position: relative;
+        }
+
+        .message.visible {
             opacity: 1;
             transform: translateY(0);
         }
 
-        #light-switch {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            cursor: pointer;
-            display: none;
+        .birthday {
+            background: #ff69b4;
+            color: white;
+            font-size: 4rem!important;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
         }
 
-        .bulb {
-            width: 50px;
-            height: 50px;
-            background: #444;
-            border-radius: 50%;
-            transition: 0.3s;
+        .emoji {
+            font-size: 2rem;
+            animation: bounce 0.5s infinite alternate;
         }
 
-        #final-reveal {
-            display: none;
-            min-height: 100vh;
-            background: #fff;
-            color: #000;
-            padding: 50px;
-            text-align: center;
-        }
-
-        img {
-            max-width: 200px;
-            margin: 20px;
+        @keyframes bounce {
+            from { transform: translateY(0); }
+            to { transform: translateY(-10px); }
         }
     </style>
 </head>
 <body>
-    <!-- Scenes -->
-    <div class="scene">
-        <h1>Hey Bestie! 👋</h1>
-        <p>Keep scrolling... something's brewing</p>
-    </div>
-
-    <div class="scene">
-        <p>Why are you scrolling? 🤨</p>
-        <img src="https://media.giphy.com/media/l0HlG7yN8qSmcVDgI/giphy.gif" alt="Confused">
-    </div>
-
-    <div class="scene">
-        <p>No really... there's nothing here 🫣</p>
-    </div>
-
-    <!-- Add more scenes as needed -->
-
-    <!-- Light Switch -->
-    <div id="light-switch" onclick="toggleLights()">
-        <div class="bulb"></div>
-        <p>TURN ON LIGHTS</p>
-    </div>
-
-    <!-- Final Reveal -->
-    <div id="final-reveal">
-        <h1>🎉 SURPRISE! HAPPY BIRTHDAY! 🎂</h1>
-        <!-- Add your custom content here -->
-        <button onclick="confetti()">Celebrate!</button>
+    <div class="container">
+        <div class="message">Hi Bestie! 🥰<br>How much can you scroll? 🤔</div>
+        <div class="message">Did you know...<br>Scrolling is my love language? 💌</div>
+        <div class="message">Keep going...<br>This isn't about anything special 👀</div>
+        <div class="message">Remember when you [insert funny memory]?<br>Still hilarious 😂</div>
+        <div class="message">You're getting warm!<br>(But not birthday-cake warm yet) 🎂</div>
+        <div class="message">Pro tip:<br>The secret is at scroll #∞ 🕵️♀️</div>
+        <div class="message">Confession:<br>I'd scroll through 1000 memes for you 📱</div>
+        <div class="message">If you stop now,<br>the internet cats win 😾</div>
+        <div class="message">This is great exercise!<br>Scroll those calories away! 🏋️♀️</div>
+        <div class="message">Drumroll please... 🥁🥁🥁</div>
+        <div class="message birthday">SURPRISE!<br>HAPPY BIRTHDAY [NAME]! 🎉🎂<br><span class="emoji">🎈🎁🎊🎇</span></div>
     </div>
 
     <script>
+        let currentIndex = 0;
+        const messages = document.querySelectorAll('.message');
+        
         // Scroll detection
-        window.addEventListener('scroll', () => {
-            const scenes = document.querySelectorAll('.scene');
-            scenes.forEach((scene, index) => {
-                const rect = scene.getBoundingClientRect();
-                if (rect.top < window.innerHeight * 0.8) {
-                    scene.classList.add('visible');
-                    
-                    // Show light switch after last scene
-                    if(index === scenes.length - 1) {
-                        document.getElementById('light-switch').style.display = 'block';
-                    }
+        window.addEventListener('wheel', (e) => {
+            if(currentIndex < messages.length) {
+                messages[currentIndex].classList.add('visible');
+                currentIndex++;
+                
+                // Add funny resistance on last message
+                if(currentIndex === messages.length - 1) {
+                    setTimeout(() => {
+                        document.body.style.cursor = 'wait';
+                        setTimeout(() => {
+                            document.body.style.cursor = 'default';
+                        }, 1000);
+                    }, 500);
                 }
-            });
+            }
         });
 
-        // Light toggle
-        let lightsOn = false;
-        function toggleLights() {
-            lightsOn = !lightsOn;
-            document.body.style.background = lightsOn ? '#fff' : '#000';
-            document.body.style.color = lightsOn ? '#000' : '#fff';
-            document.querySelector('.bulb').style.background = lightsOn ? '#ffeb3b' : '#444';
-            document.getElementById('final-reveal').style.display = lightsOn ? 'flex' : 'none';
-        }
-
-        // Simple confetti
-        function confetti() {
-            const colors = ['#ff0000', '#00ff00', '#0000ff'];
-            for(let i = 0; i < 50; i++) {
-                const div = document.createElement('div');
-                div.style.position = 'fixed';
-                div.style.left = Math.random() * 100 + 'vw';
-                div.style.top = '-10px';
-                div.style.width = '10px';
-                div.style.height = '10px';
-                div.style.background = colors[Math.floor(Math.random() * colors.length)];
-                div.style.borderRadius = '50%';
-                document.body.appendChild(div);
-                
-                animateConfetti(div);
-            }
-        }
-
-        function animateConfetti(element) {
-            let position = -10;
-            const id = setInterval(() => {
-                position += 10;
-                element.style.top = position + 'px';
-                
-                if(position > window.innerHeight) {
-                    element.remove();
-                    clearInterval(id);
+        // Mobile touch support
+        let touchStartY;
+        window.addEventListener('touchstart', e => {
+            touchStartY = e.touches[0].clientY;
+        });
+        
+        window.addEventListener('touchend', e => {
+            const touchEndY = e.changedTouches[0].clientY;
+            if(touchStartY - touchEndY > 50) { // Swipe up
+                if(currentIndex < messages.length) {
+                    messages[currentIndex].classList.add('visible');
+                    currentIndex++;
                 }
-            }, 50);
-        }
+            }
+        });
     </script>
 </body>
     </html>
