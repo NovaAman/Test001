@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Top Secret Mission 🕵️♀️</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.8/ScrollMagic.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Comic Sans MS', cursive;
+            background: #fff5e6;
+            text-align: center;
+        }
+        .scene {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: 1s;
+        }
+        .visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        img {
+            max-width: 200px;
+            margin: 20px;
+        }
+        #progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 5px;
+            background: #ff6b6b;
+            width: 0%;
+            transition: 0.5s;
+        }
+    </style>
+</head>
+<body>
+    <div id="progress-bar"></div>
+
+    <!-- SCROLL SECTIONS -->
+    <div class="scene">🕵️♀️ Top Secret Message Detected...</div>
+
+    <div class="scene">
+        <div>
+            <h1>Hey [Bestie's Name]!</h1>
+            <p>How's your day going? 🧐</p>
+            <img src="https://media.giphy.com/media/3o7aTskreUvbI8k5gY/giphy.gif" alt="Waving cat">
+        </div>
+    </div>
+
+    <div class="scene">
+        <div>
+            <p>Wait... why ARE you scrolling? 👀</p>
+            <img src="https://media.giphy.com/media/3o7TKsQfAEU2uUxP7O/giphy.gif" alt="Cookie Monster">
+        </div>
+    </div>
+
+    <!-- Add more scenes following the same pattern -->
+
+    <div class="scene">
+        <div>
+            <h1>SURPRISE!!! 🎉🎂</h1>
+            <p>Happy Birthday, [Name]!</p>
+            <button onclick="party()">Claim Virtual Cake 🍰</button>
+            <img src="https://media.giphy.com/media/3o7TKsQfAEU2uUxP7O/giphy.gif" alt="Confetti">
+        </div>
+    </div>
+
+    <script>
+        // Scroll-triggered animations
+        const scenes = document.querySelectorAll('.scene');
+        const controller = new ScrollMagic.Controller();
+
+        scenes.forEach((scene, index) => {
+            new ScrollMagic.Scene({
+                triggerElement: scene,
+                triggerHook: 0.9
+            })
+            .on("enter", () => {
+                scene.classList.add('visible');
+                updateProgress(index);
+            })
+            .addTo(controller);
+        });
+
+        // Progress bar
+        function updateProgress(index) {
+            const progress = (index / (scenes.length - 1)) * 100;
+            document.getElementById('progress-bar').style.width = `${progress}%`;
+        }
+
+        // Confetti!
+        function party() {
+            confetti({
+                particleCount: 100,
+                spread: 70,
+                origin: { y: 0.6 }
+            });
+        }
+
+        // Initial progress
+        updateProgress(0);
+    </script>
+</body>
+</html>
