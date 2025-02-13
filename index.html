@@ -16,13 +16,14 @@
             transition: 1s;
         }
 
-        /* Light switch */
+        /* Light switch - MOVED TO BOTTOM */
         .light-switch {
             position: fixed;
-            top: 20px;
+            bottom: 20px;
             right: 20px;
             z-index: 1000;
             cursor: pointer;
+            display: none; /* Hidden initially */
         }
 
         .bulb {
@@ -40,6 +41,7 @@
             left: -170px;
             top: 15px;
             font-size: 14px;
+            color: white;
         }
 
         /* Scenes */
@@ -60,23 +62,14 @@
             transform: translateY(0);
         }
 
-        /* Animations */
-        @keyframes slideInLeft {
-            from { transform: translateX(-100%); }
-            to { transform: translateX(0); }
-        }
-
-        @keyframes scaleUp {
-            from { transform: scale(0); }
-            to { transform: scale(1); }
-        }
-
         /* Final reveal section */
         #final-reveal {
             display: none;
+            min-height: 100vh;
             background: #fff;
             color: #000;
             padding: 50px;
+            text-align: center;
         }
 
         /* Progress bar */
@@ -94,27 +87,37 @@
 </head>
 <body>
     <div id="progress-bar"></div>
-    
-    <!-- Light switch -->
-    <div class="light-switch" onclick="toggleLights()">
-        <div class="bulb"></div>
-    </div>
 
     <!-- Scenes -->
     <div class="scene">
-        <h1 style="animation: glow 2s infinite;">Keep Scrolling... It's DARK Down Here 🌑</h1>
+        <h1 style="text-shadow: 0 0 10px white;">Keep Scrolling... The Fun is Hidden! 🌑</h1>
     </div>
 
     <div class="scene">
         <div class="message">
-            <p>Why are you scrolling in the dark? Are you a ninja? 🥷</p>
-            <img src="ninja.gif" alt="Ninja" style="max-width: 200px;">
+            <p>Why are you scrolling in the dark? 👀</p>
+            <img src="https://media.giphy.com/media/l0HlG7yN8qSmcVDgI/giphy.gif" alt="Ninja" style="max-width: 200px;">
         </div>
     </div>
 
     <!-- Add more scenes here -->
+    <!-- Example scene -->
+    <div class="scene">
+        <div class="message">
+            <p>You're getting warmer... 🔥</p>
+            <img src="https://media.giphy.com/media/3o7TKsQfAEU2uUxP7O/giphy.gif" alt="Fire" style="max-width: 200px;">
+        </div>
+    </div>
 
-    <!-- Final reveal (hidden until lights on) -->
+    <!-- Light switch appears AFTER ALL MESSAGES -->
+    <div class="scene" id="last-scene">
+        <div class="light-switch" onclick="toggleLights()">
+            <div class="bulb"></div>
+        </div>
+        <p>You made it! Now find the light switch... 👇</p>
+    </div>
+
+    <!-- Final reveal -->
     <div id="final-reveal">
         <h2>🎉 SURPRISE! HAPPY BIRTHDAY! 🎂</h2>
         <!-- Add your custom content here -->
@@ -122,6 +125,31 @@
     </div>
 
     <script>
+        // Show light switch after all messages
+        let switchVisible = false;
+        const controller = new ScrollMagic.Controller();
+
+        // Scene animations
+        document.querySelectorAll('.scene').forEach((scene, index) => {
+            new ScrollMagic.Scene({
+                triggerElement: scene,
+                triggerHook: 0.8,
+                offset: 50
+            })
+            .on("enter", () => {
+                scene.classList.add('visible');
+                gsap.from(scene, {duration: 1, y: 100, opacity: 0});
+                
+                // Show light switch on last scene
+                if(index === document.querySelectorAll('.scene').length - 1 && !switchVisible) {
+                    document.querySelector('.light-switch').style.display = 'block';
+                    switchVisible = true;
+                }
+                updateProgress(index);
+            })
+            .addTo(controller);
+        });
+
         // Light toggle function
         let lightsOn = false;
         function toggleLights() {
@@ -129,35 +157,8 @@
             document.body.style.background = lightsOn ? '#fff' : '#000';
             document.body.style.color = lightsOn ? '#000' : '#fff';
             document.querySelector('.bulb').style.background = lightsOn ? '#ffeb3b' : '#444';
-            
-            // Show/hide final section
-            document.getElementById('final-reveal').style.display = lightsOn ? 'block' : 'none';
-            
-            // Add your custom animations for final section here
-            if(lightsOn) {
-                gsap.from("#final-reveal", {duration: 1, y: 100, opacity: 0});
-            }
+            document.getElementById('final-reveal').style.display = lightsOn ? 'flex' : 'none';
         }
-
-        // Scroll animations
-        const controller = new ScrollMagic.Controller();
-        document.querySelectorAll('.scene').forEach((scene, index) => {
-            new ScrollMagic.Scene({
-                triggerElement: scene,
-                triggerHook: 0.9
-            })
-            .on("enter", () => {
-                scene.classList.add('visible');
-                // Add different animations
-                if(index % 2 === 0) {
-                    gsap.from(scene, {duration: 1, x: -100, opacity: 0});
-                } else {
-                    gsap.from(scene, {duration: 1, x: 100, opacity: 0});
-                }
-                updateProgress(index);
-            })
-            .addTo(controller);
-        });
 
         // Progress bar
         function updateProgress(index) {
@@ -175,4 +176,4 @@
         }
     </script>
 </body>
-</html>
+        </html>
