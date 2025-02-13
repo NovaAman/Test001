@@ -3,57 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Secret Birthday Adventure 🌑🎂</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.8/ScrollMagic.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <title>Birthday Surprise</title>
     <style>
         body {
             margin: 0;
-            font-family: 'Comic Sans MS', cursive;
+            font-family: Arial, sans-serif;
             background: #000;
             color: #fff;
             transition: 1s;
         }
 
-        /* Light switch - MOVED TO BOTTOM */
-        .light-switch {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 1000;
-            cursor: pointer;
-            display: none; /* Hidden initially */
-        }
-
-        .bulb {
-            width: 50px;
-            height: 50px;
-            background: #444;
-            border-radius: 50%;
-            position: relative;
-            transition: 0.3s;
-        }
-
-        .bulb::after {
-            content: '💡 TURN LIGHTS ON';
-            position: absolute;
-            left: -170px;
-            top: 15px;
-            font-size: 14px;
-            color: white;
-        }
-
-        /* Scenes */
         .scene {
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            flex-direction: column;
             opacity: 0;
             transform: translateY(50px);
             transition: 1s;
+            padding: 20px;
             text-align: center;
         }
 
@@ -62,7 +31,22 @@
             transform: translateY(0);
         }
 
-        /* Final reveal section */
+        #light-switch {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            cursor: pointer;
+            display: none;
+        }
+
+        .bulb {
+            width: 50px;
+            height: 50px;
+            background: #444;
+            border-radius: 50%;
+            transition: 0.3s;
+        }
+
         #final-reveal {
             display: none;
             min-height: 100vh;
@@ -72,85 +56,61 @@
             text-align: center;
         }
 
-        /* Progress bar */
-        #progress-bar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            height: 3px;
-            background: #ff6b6b;
-            width: 0%;
-            transition: 0.5s;
-            z-index: 999;
+        img {
+            max-width: 200px;
+            margin: 20px;
         }
     </style>
 </head>
 <body>
-    <div id="progress-bar"></div>
-
     <!-- Scenes -->
     <div class="scene">
-        <h1 style="text-shadow: 0 0 10px white;">Keep Scrolling... The Fun is Hidden! 🌑</h1>
+        <h1>Hey Bestie! 👋</h1>
+        <p>Keep scrolling... something's brewing</p>
     </div>
 
     <div class="scene">
-        <div class="message">
-            <p>Why are you scrolling in the dark? 👀</p>
-            <img src="https://media.giphy.com/media/l0HlG7yN8qSmcVDgI/giphy.gif" alt="Ninja" style="max-width: 200px;">
-        </div>
+        <p>Why are you scrolling? 🤨</p>
+        <img src="https://media.giphy.com/media/l0HlG7yN8qSmcVDgI/giphy.gif" alt="Confused">
     </div>
 
-    <!-- Add more scenes here -->
-    <!-- Example scene -->
     <div class="scene">
-        <div class="message">
-            <p>You're getting warmer... 🔥</p>
-            <img src="https://media.giphy.com/media/3o7TKsQfAEU2uUxP7O/giphy.gif" alt="Fire" style="max-width: 200px;">
-        </div>
+        <p>No really... there's nothing here 🫣</p>
     </div>
 
-    <!-- Light switch appears AFTER ALL MESSAGES -->
-    <div class="scene" id="last-scene">
-        <div class="light-switch" onclick="toggleLights()">
-            <div class="bulb"></div>
-        </div>
-        <p>You made it! Now find the light switch... 👇</p>
+    <!-- Add more scenes as needed -->
+
+    <!-- Light Switch -->
+    <div id="light-switch" onclick="toggleLights()">
+        <div class="bulb"></div>
+        <p>TURN ON LIGHTS</p>
     </div>
 
-    <!-- Final reveal -->
+    <!-- Final Reveal -->
     <div id="final-reveal">
-        <h2>🎉 SURPRISE! HAPPY BIRTHDAY! 🎂</h2>
+        <h1>🎉 SURPRISE! HAPPY BIRTHDAY! 🎂</h1>
         <!-- Add your custom content here -->
-        <button onclick="party()">Explode Confetti! 🎊</button>
+        <button onclick="confetti()">Celebrate!</button>
     </div>
 
     <script>
-        // Show light switch after all messages
-        let switchVisible = false;
-        const controller = new ScrollMagic.Controller();
-
-        // Scene animations
-        document.querySelectorAll('.scene').forEach((scene, index) => {
-            new ScrollMagic.Scene({
-                triggerElement: scene,
-                triggerHook: 0.8,
-                offset: 50
-            })
-            .on("enter", () => {
-                scene.classList.add('visible');
-                gsap.from(scene, {duration: 1, y: 100, opacity: 0});
-                
-                // Show light switch on last scene
-                if(index === document.querySelectorAll('.scene').length - 1 && !switchVisible) {
-                    document.querySelector('.light-switch').style.display = 'block';
-                    switchVisible = true;
+        // Scroll detection
+        window.addEventListener('scroll', () => {
+            const scenes = document.querySelectorAll('.scene');
+            scenes.forEach((scene, index) => {
+                const rect = scene.getBoundingClientRect();
+                if (rect.top < window.innerHeight * 0.8) {
+                    scene.classList.add('visible');
+                    
+                    // Show light switch after last scene
+                    if(index === scenes.length - 1) {
+                        document.getElementById('light-switch').style.display = 'block';
+                    }
                 }
-                updateProgress(index);
-            })
-            .addTo(controller);
+            });
         });
 
-        // Light toggle function
+        // Light toggle
         let lightsOn = false;
         function toggleLights() {
             lightsOn = !lightsOn;
@@ -160,20 +120,36 @@
             document.getElementById('final-reveal').style.display = lightsOn ? 'flex' : 'none';
         }
 
-        // Progress bar
-        function updateProgress(index) {
-            const progress = (index / (document.querySelectorAll('.scene').length - 1)) * 100;
-            document.getElementById('progress-bar').style.width = `${progress}%`;
+        // Simple confetti
+        function confetti() {
+            const colors = ['#ff0000', '#00ff00', '#0000ff'];
+            for(let i = 0; i < 50; i++) {
+                const div = document.createElement('div');
+                div.style.position = 'fixed';
+                div.style.left = Math.random() * 100 + 'vw';
+                div.style.top = '-10px';
+                div.style.width = '10px';
+                div.style.height = '10px';
+                div.style.background = colors[Math.floor(Math.random() * colors.length)];
+                div.style.borderRadius = '50%';
+                document.body.appendChild(div);
+                
+                animateConfetti(div);
+            }
         }
 
-        // Confetti function
-        function party() {
-            confetti({
-                particleCount: 500,
-                spread: 200,
-                origin: { y: 0.4 }
-            });
+        function animateConfetti(element) {
+            let position = -10;
+            const id = setInterval(() => {
+                position += 10;
+                element.style.top = position + 'px';
+                
+                if(position > window.innerHeight) {
+                    element.remove();
+                    clearInterval(id);
+                }
+            }, 50);
         }
     </script>
 </body>
-        </html>
+    </html>
