@@ -68,7 +68,7 @@
             transform: translateX(-50%);
             font-size: 5rem;
             cursor: pointer;
-            opacity: 1;
+            opacity: 100;
             z-index: 1000;
             filter: drop-shadow(0 5px 15px rgba(0,0,0,0.3));
             transition: all 0.5s;
@@ -190,21 +190,7 @@
         }
 
         // Mobile Touch Support
-        let touchStartY;
-        window.addEventListener('touchstart', e => {
-            touchStartY = e.touches[0].clientY;
-        });
         
-        window.addEventListener('touchend', e => {
-            const touchEndY = e.changedTouches[0].clientY;
-            if(touchStartY - touchEndY > 50 && currentIndex < messages.length) {
-                messages[currentIndex].classList.add('visible');
-                currentIndex++;
-                if(currentIndex === messages.length) {
-                    giftBox.classList.add('visible');
-                }
-            }
-        });
     </script>
 </body>
 </html>
