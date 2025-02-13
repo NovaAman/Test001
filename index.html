@@ -3,18 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Top Secret Mission 🕵️♀️</title>
+    <title>Secret Birthday Adventure 🌑🎂</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.8/ScrollMagic.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
     <style>
         body {
             margin: 0;
             font-family: 'Comic Sans MS', cursive;
-            background: #fff5e6;
-            text-align: center;
+            background: #000;
+            color: #fff;
+            transition: 1s;
         }
+
+        /* Light switch */
+        .light-switch {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            cursor: pointer;
+        }
+
+        .bulb {
+            width: 50px;
+            height: 50px;
+            background: #444;
+            border-radius: 50%;
+            position: relative;
+            transition: 0.3s;
+        }
+
+        .bulb::after {
+            content: '💡 TURN LIGHTS ON';
+            position: absolute;
+            left: -170px;
+            top: 15px;
+            font-size: 14px;
+        }
+
+        /* Scenes */
         .scene {
-            height: 100vh;
+            min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -22,70 +52,108 @@
             opacity: 0;
             transform: translateY(50px);
             transition: 1s;
+            text-align: center;
         }
+
         .visible {
             opacity: 1;
             transform: translateY(0);
         }
-        img {
-            max-width: 200px;
-            margin: 20px;
+
+        /* Animations */
+        @keyframes slideInLeft {
+            from { transform: translateX(-100%); }
+            to { transform: translateX(0); }
         }
+
+        @keyframes scaleUp {
+            from { transform: scale(0); }
+            to { transform: scale(1); }
+        }
+
+        /* Final reveal section */
+        #final-reveal {
+            display: none;
+            background: #fff;
+            color: #000;
+            padding: 50px;
+        }
+
+        /* Progress bar */
         #progress-bar {
             position: fixed;
             top: 0;
             left: 0;
-            height: 5px;
+            height: 3px;
             background: #ff6b6b;
             width: 0%;
             transition: 0.5s;
+            z-index: 999;
         }
     </style>
 </head>
 <body>
     <div id="progress-bar"></div>
+    
+    <!-- Light switch -->
+    <div class="light-switch" onclick="toggleLights()">
+        <div class="bulb"></div>
+    </div>
 
-    <!-- SCROLL SECTIONS -->
-    <div class="scene">🕵️♀️ Top Secret Message Detected...</div>
-
+    <!-- Scenes -->
     <div class="scene">
-        <div>
-            <h1>Hey [Bestie's Name]!</h1>
-            <p>How's your day going? 🧐</p>
-            <img src="https://media.giphy.com/media/3o7aTskreUvbI8k5gY/giphy.gif" alt="Waving cat">
-        </div>
+        <h1 style="animation: glow 2s infinite;">Keep Scrolling... It's DARK Down Here 🌑</h1>
     </div>
 
     <div class="scene">
-        <div>
-            <p>Wait... why ARE you scrolling? 👀</p>
-            <img src="https://media.giphy.com/media/3o7TKsQfAEU2uUxP7O/giphy.gif" alt="Cookie Monster">
+        <div class="message">
+            <p>Why are you scrolling in the dark? Are you a ninja? 🥷</p>
+            <img src="ninja.gif" alt="Ninja" style="max-width: 200px;">
         </div>
     </div>
 
-    <!-- Add more scenes following the same pattern -->
+    <!-- Add more scenes here -->
 
-    <div class="scene">
-        <div>
-            <h1>SURPRISE!!! 🎉🎂</h1>
-            <p>Happy Birthday, [Name]!</p>
-            <button onclick="party()">Claim Virtual Cake 🍰</button>
-            <img src="https://media.giphy.com/media/3o7TKsQfAEU2uUxP7O/giphy.gif" alt="Confetti">
-        </div>
+    <!-- Final reveal (hidden until lights on) -->
+    <div id="final-reveal">
+        <h2>🎉 SURPRISE! HAPPY BIRTHDAY! 🎂</h2>
+        <!-- Add your custom content here -->
+        <button onclick="party()">Explode Confetti! 🎊</button>
     </div>
 
     <script>
-        // Scroll-triggered animations
-        const scenes = document.querySelectorAll('.scene');
-        const controller = new ScrollMagic.Controller();
+        // Light toggle function
+        let lightsOn = false;
+        function toggleLights() {
+            lightsOn = !lightsOn;
+            document.body.style.background = lightsOn ? '#fff' : '#000';
+            document.body.style.color = lightsOn ? '#000' : '#fff';
+            document.querySelector('.bulb').style.background = lightsOn ? '#ffeb3b' : '#444';
+            
+            // Show/hide final section
+            document.getElementById('final-reveal').style.display = lightsOn ? 'block' : 'none';
+            
+            // Add your custom animations for final section here
+            if(lightsOn) {
+                gsap.from("#final-reveal", {duration: 1, y: 100, opacity: 0});
+            }
+        }
 
-        scenes.forEach((scene, index) => {
+        // Scroll animations
+        const controller = new ScrollMagic.Controller();
+        document.querySelectorAll('.scene').forEach((scene, index) => {
             new ScrollMagic.Scene({
                 triggerElement: scene,
                 triggerHook: 0.9
             })
             .on("enter", () => {
                 scene.classList.add('visible');
+                // Add different animations
+                if(index % 2 === 0) {
+                    gsap.from(scene, {duration: 1, x: -100, opacity: 0});
+                } else {
+                    gsap.from(scene, {duration: 1, x: 100, opacity: 0});
+                }
                 updateProgress(index);
             })
             .addTo(controller);
@@ -93,21 +161,18 @@
 
         // Progress bar
         function updateProgress(index) {
-            const progress = (index / (scenes.length - 1)) * 100;
+            const progress = (index / (document.querySelectorAll('.scene').length - 1)) * 100;
             document.getElementById('progress-bar').style.width = `${progress}%`;
         }
 
-        // Confetti!
+        // Confetti function
         function party() {
             confetti({
-                particleCount: 100,
-                spread: 70,
-                origin: { y: 0.6 }
+                particleCount: 500,
+                spread: 200,
+                origin: { y: 0.4 }
             });
         }
-
-        // Initial progress
-        updateProgress(0);
     </script>
 </body>
 </html>
