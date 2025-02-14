@@ -8,6 +8,11 @@
     <link rel="stylesheet" href="./style.css">
     <style>
         /* Base Styles */
+
+        body {
+            background: linear-gradient(45deg, #fa4c4c, #021222);
+            overflow-x: hidden;
+        } 
         * {
             margin: 0;
             padding: 0;
@@ -20,7 +25,7 @@
 
         #glass{
     height: 100vh;
-    width: 300px;
+    width: 350px;
     padding: 30px 50px;
     border-radius: 20px;
     background-color: rgba(255, 255, 255, 0.158);
@@ -30,9 +35,21 @@
     box-shadow: 3px 3px 3px rgba(0,0,0,0.089) ;
 }
 
-.typing-container {
-    font-size: 24px;
+
+#glass2{
+    height: 40vh;
+    width: 350px;
+    padding: 30px 50px;
+    border-radius: 20px;
+    background-color: rgba(255, 255, 255, 0.158);
+    backdrop-filter: blur(8px);
+    border-top: 1px solid rgba(255, 255, 255, 0.4);
+    border-left: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 3px 3px 3px rgba(0,0,0,0.089) ;
+    margin-bottom: 10px;
 }
+
+
 
 .cursor {
     display: inline-block;
@@ -54,8 +71,8 @@
 
 .container{
     position: relative;
-    margin-top: 200px;
-    margin-bottom: 400px;
+    margin-top: 120px;
+    margin-bottom: 200px;
 }
 .valentines{
     position: relative;
@@ -71,6 +88,7 @@
     background: #f08080;
     display: grid;
     place-items: center;
+    margin-top: 10px;
 }
 .envelope::before{
     content: '';
@@ -208,16 +226,9 @@
 
 
 
-
-
-        body {
-            background: linear-gradient(45deg, #fa4c4c, #06c9bcd0);
-            overflow-x: hidden;
-        }
-
         /* Messages */
         .message {
-            padding: 20px;
+            padding: 1px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -229,11 +240,15 @@
             margin: 25%;
         }
 
+       
+
+        
+
         .message-text {
-            font-size: 2rem;
-            color: #2d3436;
+            font-size: 15px;
+            color: #ffffff;
             margin-bottom: 20px;
-            padding: 0 20px;
+            padding: 0 5px;
             font-family: 'Pacifico', cursive;
         }
 
@@ -252,7 +267,7 @@
         /* Gift Box */
         .gift-box {
             position: relative;
-            bottom: 40px;
+            bottom: 10px;
             left: 93%;
             transform: translateX(-50%);
             font-size: 5rem;
@@ -274,7 +289,7 @@
             left: 50%;
             transform: translate(-50%, -50%);
             font-size: 3rem;
-            color: #ff7675;
+            color: #ffffff;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
             opacity: 0;
             z-index: 1001;
@@ -311,13 +326,20 @@
         .visible {
             animation: messageEntry 1s forwards;
         }
+
+        .openit{
+            color: white;
+            text-align: center;
+        }
+
+        
     </style>
 </head>
 <body>
     <div id=class="container">
         <div id="glass" class="message">
             <div class="message-text">
-                <div class="message-text">"Hi <br>Just felt like making you scroll today😎"</div>
+                <div class="message-text">"Hi <br>Just felt like making you scroll today😊"</div>
             </div>
             
             <img src="https://media.giphy.com/media/3o7aTskHEUdgCQAXde/giphy.gif" class="message-gif">
@@ -329,7 +351,7 @@
         </div>
 
         <div id="glass" class="message">
-            <div class="message-text">"Wait,<br> why are you scrolling?Did someone say 'free cookies'?"</div>
+            <div class="message-text">"Wait,<br> why are you scrolling?🧐Did someone say 'free cookies'?"</div>
             <img src="https://media.giphy.com/media/3o7aTskHEUdgCQAXde/giphy.gif" class="message-gif">
         </div>
         
@@ -339,7 +361,7 @@
         </div>
 
         <div id="glass" class="message">
-            <div class="message-text">"Are you tired of scrolling? <br>Just keep going"</div>
+            <div class="message-text">"Are you tired of scrolling?😁 <br>Just keep going"</div>
             <img src="https://media.giphy.com/media/3o7aTskHEUdgCQAXde/giphy.gif" class="message-gif">
         </div>
         
@@ -349,12 +371,12 @@
         </div>
 
         <div id="glass" class="message">
-            <div class="message-text">"This is very long journey"</div>
+            <div class="message-text">"This is a very long journey"</div>
             <img src="https://media.giphy.com/media/LML0HUMRxC1y4/giphy.gif" class="message-gif">
         </div>
 
         <div id="glass" class="message">
-            <div class="message-text">Have a popcorn while scrolling</div>
+            <div class="message-text">Have a popcorn while scrolling 🍿</div>
             <img src="https://media.giphy.com/media/LML0HUMRxC1y4/giphy.gif" class="message-gif">
         </div>
 
@@ -369,7 +391,7 @@
         </div>
 
         <div id="glass" class="message">
-            <div class="message-text">"3...,2...,1...<br> Prepare for liftoff!"</div>
+            <div class="message-text">"3...,2...,1...<br> Prepare for the liftoff!"</div>
             <img src="https://media.giphy.com/media/LML0HUMRxC1y4/giphy.gif" class="message-gif">
         </div>
 
@@ -380,21 +402,22 @@
 
         <!-- Add more messages with GIFs here -->
 
-        <div id="glass" class="message birthday">
-            <div class="message-text">SURPRISE!<br>HAPPY BIRTHDAY [NAME]! 🎉🎂</div>
+        <div id="glass2" class="message birthday">
+            <div class="message-text">SURPRISE!<br>HAPPY BIRTHDAY Arsu! 🎉🎂</div>
             <img src="https://media.giphy.com/media/3o85xIO33l7RalLRX2/giphy.gif" class="message-gif">
         </div>
     </div>
 
-    <div class="gift-box">🎁</div>
-    <div class="gift-message">Happy Birthday! 🎉</div>
+    
+
+    <div><h3  class="openit">open the Envelope</h3></div>
 
     <div class="container">
         <div class="valentines">
             <div class="envelope">
                 <div class="card">
                     <div class="text">
-                        Happy <br> BirthDay <br>
+                        Happy <br> BirthDay Arsu<br>
                     </div>
                     <div class="heart"></div>
                 </div>
@@ -402,6 +425,12 @@
             <div class="front"></div>
         </div>
     </div>
+
+    <div><h3  class="openit">click the gift box</h3></div>
+
+
+    <div class="gift-box">🎁</div>
+    <div class="gift-message">Happy Birthday! 🎉</div>
 
     <script>
         let currentIndex = 0;
@@ -433,7 +462,7 @@
 
         // Confetti Creator (persistent)
         function createConfetti() {
-            const colors = ['#ff7675', '#74b9ff', '#55efc4', '#ffeaa7', '#a29bfe'];
+            const colors = ['#3f9dfc', '#fa0000', '#00ffb7', '#ffee00', '#ae00ff'];
             for(let i = 0; i < 200; i++) {
                 const confetti = document.createElement('div');
                 confetti.classList.add('confetti');
@@ -463,4 +492,4 @@
         });
     </script>
 </body>
-    </html>
+            </html>
